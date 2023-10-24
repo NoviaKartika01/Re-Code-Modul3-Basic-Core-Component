@@ -1,28 +1,25 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Pressable,Text } from "native-base";
 
 // functional componenet with props
 const Button = (props) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={props.onPress}>
-            <Text style={styles.text}> {props.text} </Text>
-        </TouchableOpacity>
+        <Pressable 
+            bg= {"#dddddd"}
+            p= {15}
+            alignItems= "center"
+            borderRadius= {30} 
+            onPress={props.onPress}
+            >
+            <Text 
+                fontSize= {16}
+                textTransform= "uppercase"
+                fontWeight= "bold"
+                >
+                {props.text} 
+            </Text>
+        </Pressable>
     );
 };
-
-// style di dalam button burger
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#dddddd",
-        padding: 15,
-        alignItems: "center",
-        borderRadius: 30,
-      },
-      text: {
-        fontSize: 16,
-        textTransform: "uppercase",
-        fontWeight: "bold",
-      },    
-});
 
 export default Button;

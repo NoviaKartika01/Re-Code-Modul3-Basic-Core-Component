@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { View, DrawerLayoutAndroid, StatusBar } from "react-native";
+import { NativeBaseProvider, Box } from 'native-base'
+import { StatusBar, DrawerLayoutAndroid } from 'react-native';
 import Header from "./components/header";
 import Button from "./components/button";
 import Separator from "./components/separator";
@@ -23,29 +24,33 @@ const App = () => {
   };
 
   // Arrow Function inside Functional Component
-  const navigationView = () => (
-    <View style={{ padding: 30, backgroundColor: "#222222", flex: 1 }}>
-      <Button text="List" onPress={() => changePage(drawer, "list")} />
+  const NavigationView = (props) => (
+    <Box style={{ padding: 30, backgroundColor: '#222222', flex: 1 }}>
+      <Button text="List" onPress={() => changePage(props.drawer, 'list')} />
       <Separator height={30} />
-      <Button text="Article" onPress={() => changePage(drawer, "article")} />
+      <Button
+        text="Article"
+        onPress={() => changePage(props.drawer, 'article')}
+      />
       <Separator height={30} />
-      <Button text="Close" onPress={() => drawer.current.closeDrawer()} />
-    </View>
+      <Button text="Close" onPress={() => props.drawer.current.closeDrawer()} />
+    </Box>
   );
-
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      drawerPosition="left"
-      renderNavigationView={navigationView}
-    >
-      <StatusBar style="light" backgroundColor="#AA0002" />
-      <View>
-        <Header drawer={drawer} />
-        {page == "list" ? <List /> : page == "article" ? <Article /> : null}
-      </View>
-    </DrawerLayoutAndroid>
+    <NativeBaseProvider>
+      <DrawerLayoutAndroid
+        ref={drawer}
+        drawerWidth={300}
+        drawerPosition="left"
+        renderNavigationView={() => <NavigationView drawer={drawer} />}>
+        <Box style={{ paddingTop: 0 }}>
+          <StatusBar style="auto" backgroundColor="#AA0002" />
+          <Header drawer={drawer} />
+          {page == 'list' && <List />}
+          {page == 'article' && <Article />}
+        </Box>
+      </DrawerLayoutAndroid>
+    </NativeBaseProvider>
   );
 };
 
